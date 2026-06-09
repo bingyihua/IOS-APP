@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿// !$*UTF8*$!
 Version=19.2
 ObjectVersion=55
 SmartGroupTreeVersion=2
-Objects
+Objects {
 	56208123FD2446A5A8C50DF409183E28 /* Build configuration list for PBXProject: Release */ = {isa = XCConfigurationList; buildConfigurations = (ED0579211C7F41D9852A116B296C4B12 /* Release */, D84059EF8DFE4AA1B57D73A798E17548 /* Debug */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 	ED0579211C7F41D9852A116B296C4B12 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {        CODE_SIGN_ENTITLEMENTS = "VlessBox/Entitlements.plist";
         CODE_SIGN_STYLE = Automatic;
@@ -77,4 +77,4 @@ ProjectSection = {
 		33EF45D2918B4C5BBEF21D7492064401 = {ProjectRef = 33EF45D2918B4C5BBEF21D7492064401 };
 		131A2C91E218414BA00E74BB074F6979 = {TargetRef = 131A2C91E218414BA00E74BB074F6979 };
 };
-EndObjects
+EndObjects }
