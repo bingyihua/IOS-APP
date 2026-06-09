@@ -1,0 +1,73 @@
+﻿# GitHub Actions CI/CD Configuration for VlessBox
+# 放在 .github/workflows/build-ios.yml
+
+name: Build iOS IPA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  build:
+    name: iOS Build
+    runs-on: macos-latest
+    
+    steps:
+      # 检查代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # 设置 Xcode
+      - name: Select Xcode version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.4.app
+          xcodebuild -version
+      
+      # 清理构建
+      - name: Clean build
+        run: |
+          cd VlessBox
+          xcodebuild clean \
+            -scheme VlessBox \
+            -configuration Release \
+            -project VlessBox.xcodeproj
+      
+      # 构建 IPA（需要签名）
+      - name: Build IPA
+        run: |
+          cd VlessBox
+          # 使用 ad-hoc 签名（无需证书）
+          xcodebuild archive \
+            -scheme VlessBox \
+            -configuration Release \
+            -project VlessBox.xcodeproj \
+            -archivePath build/VlessBox.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+      
+      # 导出 IPA
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath build/VlessBox.xcarchive \
+            -exportPath build/ \
+            -exportOptionsPlist exportOptions.plist
+      
+      # 上传构建产物
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: VlessBox
+          path: VlessBox/build/VlessBox.ipa
+          retention-days: 7
+
+# 注意：
+# 1. GitHub Actions 的 macOS Runner 需要付费
+# 2. 签名需要 Apple Developer 账号
+# 3. 推荐优先使用 Codemagic（更简单）
