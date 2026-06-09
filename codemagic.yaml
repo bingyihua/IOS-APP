@@ -13,8 +13,6 @@ environment:
   xcode: "15.4"
   vars:
     APP_NAME: "VlessBox"
-    XCODE_PROJECT_PATH: "VlessBox.xcodeproj"
-    XCODE_SCHEME: "VlessBox"
 
 workflows:
   ios-workflow:
@@ -26,16 +24,19 @@ workflows:
         script: |
           xcodebuild -version
           swift --version
+          pwd
+          ls -la
 
       - name: Build IPA
         script: |
-          cd VlessBox
-          xcodebuild archive \
-            -scheme VlessBox \
-            -project VlessBox.xcodeproj \
-            -xcconfig Release.xcconfig \
-            -archivePath "C:\Users\Administrator/BuildArtifacts/VlessBox.xcarchive" \
-            SKIP_INSTALL=NO \
+          pwd
+          ls -la
+          xcodebuild archive \\
+            -scheme VlessBox \\
+            -project VlessBox.xcodeproj \\
+            -xcconfig Release.xcconfig \\
+            -archivePath "C:\Users\Administrator/BuildArtifacts/VlessBox.xcarchive" \\
+            SKIP_INSTALL=NO \\
             BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
     artifacts:
