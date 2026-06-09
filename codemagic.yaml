@@ -1,16 +1,9 @@
-﻿# Codemagic CI/CD Configuration for VlessBox
-# https://docs.codemagic.io/yaml-codemagic/yaml-getting-started/
-
-# ============================================
-# 使用方法：
-# 1. 登录 https://codemagic.io 并创建账户
-# 2. Import 你的 GitHub 仓库: bingyihua/IOS-APP
-# 3. 在 App Configuration 中设置签名信息
-# 4. 点击 Build -> Trigger Build
-# 5. 构建完成后下载 IPA
+﻿# ============================================
+# VlessBox - Codemagic CI/CD Configuration
+# 使用方法: 登录 codemagic.io, 导入仓库, 配置签名, 触发构建
 # ============================================
 
-# 触发构建的条件
+# 触发构建
 trigger:
   branches:
     only:
@@ -22,194 +15,66 @@ trigger:
     branches:
       - "**"
 
-# 环境变量（在 Codemagic UI 中设置敏感值）
+# 缓存配置
+cache:
+  cache_paths:
+    - C:\Users\Administrator/Library/Caches/CocoaPods
+
+# 环境变量
 environment:
-  # Xcode 版本
-  xcode: 15.4
-  # Xcode 的签名证书和描述文件设置
-  groups:
-    - certificates          # 在 Codemagic 中添加证书组
-    - apple_team            # 在 Codemagic 中添加 Apple Team 组
-
-  # 变量说明：
-  # APPLE_ID - Apple ID 邮箱
-  # APPLE_APP_PASSWORD - Apple App 专用密码
-  # APPLE_TEAM_ID - Team ID（可在 https://developer.apple.com/account 查看）
-  # CERTIFICATE_PRIVATE_KEY - 签名私钥（Base64 编码）
-  # BUILD_CERTIFICATE_BASE64 - 证书 Base64 编码
-  # P12_PASSWORD - P12 证书密码
-  # PROVISIONING_PROFILE_BASE64 - 描述文件 Base64 编码
-
+  xcode: "15.4"
+  cocoapods:
+    default_pod_version_and_target_resolution: true
   vars:
     APP_NAME: "VlessBox"
     BUNDLE_ID: "com.vlessbox.app"
     XCODE_PROJECT_PATH: "VlessBox.xcodeproj"
     XCODE_SCHEME: "VlessBox"
-    CODE_SIGN_EXCLUDED_PROJECTS: "VlessBox"
-    flutter_version: "stable"
 
-# 工作流定义
+# 工作流
 workflows:
-  ios-release:
-    name: VlessBox iOS Release
-    max_build_duration: 120
-    instance_type: mac_mini_m2
-    
-    # 签名配置
-    signing:
-      # 使用 Apple 证书和描述文件
-      certificates:
-        - certificate_path: 
-          password: 
-      
-      # 描述文件
-      provisioning_profiles:
-        - profile_path: 
-          name: VlessBox_profile.mobileprovision
-      
-      # Apple 开发者签名
-      code_signing_settings:
-        certificates:
-          - certificates_id
-        signing_certificate: 
-        # 不使用自动签名，手动管理
-        use_for_defaults: false
-    
-    # 构建前脚本
+  ios-workflow:
+    name: VlessBox iOS Build
+    max_build_duration: 60
+    instance_type: mac_mini
+    triggering:
+      events:
+        - push
+        - tag
+        - pull_request
+      approve_if:
+        - force_build
+    environment:
+      xcode: "15.4"
+      vars:
+        XCODE_WORKSPACE: "VlessBox.xcodeproj"
+        XCODE_SCHEME: "VlessBox"
+        APP_NAME: "VlessBox"
+
     scripts:
-      # 步骤 1: 安装 CocoaPods 依赖
-      - name: Install dependencies
+      - name: Setup environment
         script: |
-          echo "=== 安装依赖 ==="
-          # 检查 Xcode 版本
           xcodebuild -version
           xcode-select -p
-          
-          # 列出可用 Xcode 版本
-          ls /Applications | grep Xcode
-          
-          # 检查 CocoaPods
-          pod --version || gem install cocoapods
-          
-          # 检查 Swift 版本
           swift --version
-          
-      # 步骤 2: 配置 Apple 签名
-      - name: Configure Apple Sign-in
-        script: |
-          echo "=== 配置 Apple 签名 ==="
-          
-          # 导入证书
-          echo  | base64 --decode > /tmp/certificate.p12
-          
-          # 创建临时 keychain
-          security create-keychain -p temporary build.keychain
-          security set-keychain-settings -lut 21600 build.keychain
-          security unlock-keychain -p temporary build.keychain
-          
-          # 导入证书到 keychain
-          security import /tmp/certificate.p12 -k build.keychain -P  -T /usr/bin/codesign
-          
-          # 导入描述文件
-          echo  | base64 --decode > /tmp/profile.mobileprovision
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp /tmp/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
-          
-          # 设置代码签名身份
-          echo "证书导入完成"
-          security find-identity -v -p codesigning build.keychain
-      
-      # 步骤 3: 清理和构建
+          ls /Applications | grep Xcode
+
       - name: Build IPA
         script: |
-          echo "=== 开始构建 ==="
           cd VlessBox
-          
-          # 清理构建缓存
-          xcodebuild clean \
-            -scheme  \
-            -configuration Release \
-            -project  \
-            -derivedDataPath ../DerivedData \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
-          
-          echo "=== 清理完成，开始归档 ==="
-          
-          # 归档构建
           xcodebuild archive \
             -scheme  \
             -configuration Release \
             -project  \
-            -archivePath ../DerivedData/Build/Archives/.xcarchive \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
-          
-          echo "=== 归档完成 ==="
-    
-    # 导出 IPA
+            -archivePath "C:\Users\Administrator/BuildArtifacts/.xcarchive" \
+            SKIP_INSTALL=NO \
+            BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
     artifacts:
-      - build/ios/ipa/.ipa
-      - C:\Users\Administrator/Library/Developer/Xcode/Archives/*.xcarchive
+      - BuildArtifacts/.xcarchive
       - C:\Users\Administrator/Library/Developer/Xcode/DerivedData/**/Logs/XcodeBuild.log
-      - C:\Users\Administrator/Library/Developer/Xcode/DerivedData/**/Build/*.app.dSYM
-    
-    # 构建后脚本（可选）
+      - /tmp/xcodebuild_logs/*.log
+
     publishing:
-      # 自动发送邮件通知
       emails:
         - bingyihua@users.noreply.github.com
-      # Slack 通知（可选）
-      slack:
-        channels:
-          - build-notifications
-      # App Store Connect 上传（可选）
-      app_store_connect:
-        submit_to_testflight: true
-        beta_developers: []
-        beta_testers: true
-        submit_to_app_store: false
-        contact_email: bingyihua@users.noreply.github.com
-        contact_developer: ""
-        contact_phone: ""
-        app_privacy_policy_url: ""
-
-
-# ============================================
-# 简化版：使用 Apple 签名组
-# ============================================
-
-environment:
-  groups:
-    - ios_certificates          # 存储证书和描述文件的 Base64
-    - apple_credentials         # 存储 Apple ID 和密码
-  
-  vars:
-    XCODE_WORKSPACE: "VlessBox.xcodeproj"
-    XCODE_SCHEME: "VlessBox"
-    APPLE_ID: "your-apple-id@email.com"  # 在 Codemagic UI 设置
-    APPLE_TEAM_ID: "your-team-id"        # 在 Codemagic UI 设置
-
-  cocoapods:
-    install: true
-
-# ============================================
-# 签名方式选择：
-# 
-# 方式 1: Apple Developer 账号自动签名（推荐）
-#   - 在 Codemagic UI -> Signing & Codes -> Apple signing certificates
-#   - 用 Apple ID 登录自动获取证书
-#   - 最简单的方式
-#
-# 方式 2: 手动上传证书
-#   - 生成 .p12 证书和 .mobileprovision 文件
-#   - Base64 编码后填入 Codemagic variables
-#   - 适合企业证书
-#
-# 方式 3: Apple Developer API 签名
-#   - 需要 Apple Developer 账号
-#   - 使用 API 密钥自动签名
-#   - 最自动化的方式
-# ============================================
