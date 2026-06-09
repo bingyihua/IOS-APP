@@ -1,4 +1,4 @@
-name: Build iOS IPA
+ame: Build iOS IPA
 
 on:
   push:
@@ -23,6 +23,33 @@ jobs:
           cd VlessBox
           python gen_xcode.py
       
+      - name: Create workspace structure
+        run: |
+          cd VlessBox
+          mkdir -p VlessBox.xcworkspace/xcshareddata/xcworkspacedata/WorkspaceSettings/Settings.bundle
+          
+          # 创建 contents.xcworkspacedeclaration
+          cat > VlessBox.xcworkspace/xcshareddata/xcworkspacedata/contents.xcworkspacedeclaration << 'ENDOFFILE'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Workspace version="1.0">
+             <FileRef location="group:VlessBox.xcodeproj"/>
+          </Workspace>
+          ENDOFFILE
+          
+          # 创建 Settings.bundle/Root.plist（空配置）
+          cat > VlessBox.xcworkspace/xcshareddata/xcworkspacedata/WorkspaceSettings/Settings.bundle/Root.plist << 'ENDOFFILE'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>StringsTable</key>
+              <string>Root</string>
+              <key>PreferenceSpecifiers</key>
+              <array/>
+          </dict>
+          </plist>
+          ENDOFFILE
+      
       - name: Select Xcode version
         run: |
           sudo xcode-select -s /Applications/Xcode_15.4.app
@@ -46,7 +73,7 @@ jobs:
             -xcconfig Release.xcconfig \
             -archivePath build/VlessBox.xcarchive \
             SKIP_INSTALL=NO \
-            BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+            BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
