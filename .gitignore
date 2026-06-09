@@ -1,0 +1,37 @@
+﻿# Xcode
+build/
+DerivedData/
+*.xcworkspace/
+*.xcodeproj/
+*.pbxproj
+*.pbxproj.bak
+*.pbxproj.lock
+*.xcuserdata/
+project.xcworkspace/
+xcshareddata/
+xcuserdata/
+
+# Swift
+build/
+*.swiftpackage
+
+# Generated
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# IDE
+.idea/
+.vscode/
+
+# Mac
+.DS_Store
+Thumbs.db
+
+# Build scripts output
+Payload/
+
+# Python
+__pycache__/
+*.pyc
+gen_xcode.py
