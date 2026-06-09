@@ -1,4 +1,4 @@
-﻿trigger:
+trigger:
   branches:
     only:
       - main
@@ -31,14 +31,14 @@ workflows:
         script: |
           pwd
           ls -la
-          xcodebuild archive \\
-            -scheme VlessBox \\
-            -project VlessBox.xcodeproj \\
-            -xcconfig Release.xcconfig \\
-            -archivePath "C:\Users\Administrator/BuildArtifacts/VlessBox.xcarchive" \\
-            SKIP_INSTALL=NO \\
+          xcodebuild archive \
+            -scheme VlessBox \
+            -project VlessBox.xcodeproj \
+            -xcconfig Release.xcconfig \
+            -archivePath "$HOME/BuildArtifacts/VlessBox.xcarchive" \
+            SKIP_INSTALL=NO \
             BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
     artifacts:
       - BuildArtifacts/VlessBox.xcarchive
-      - C:\Users\Administrator/Library/Developer/Xcode/DerivedData/**/Logs/XcodeBuild.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Logs/XcodeBuild.log
