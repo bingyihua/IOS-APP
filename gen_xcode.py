@@ -1,7 +1,6 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import hashlib, os, uuid, sys, pathlib
 
-# 自动从脚本所在目录推导项目根目录
 project_root = str(pathlib.Path(__file__).resolve().parent)
 swift_files = [
     "VlessBox/VlessBoxApp.swift",
@@ -19,7 +18,12 @@ plist_files = ["VlessBox/Info.plist", "VlessBox/Entitlements.plist"]
 def mkuuid(s):
     return uuid.UUID(hashlib.md5(s.encode()).hexdigest(), version=4).hex.upper()
 
-def make_settings(extras=None):
+def make_settings_block(extras=None):
+    """生成 buildSettings 块，格式与 Xcode 原生一致：
+    {
+        KEY = value;
+    }
+    注意：每行都有 \\t\\t 缩进（2 个 tab）"""
     dq = chr(34)
     lines = [
         "        CODE_SIGN_ENTITLEMENTS = " + dq + "VlessBox/Entitlements.plist" + dq + ";",
@@ -37,7 +41,9 @@ def make_settings(extras=None):
     ]
     if extras:
         lines.extend(extras)
-    return chr(10).join(lines)
+    # 用 \n\t 连接，每行以 \t 开头（相对于 buildSettings = { 的缩进层级）
+    settings = "\n\t" + "\n\t".join(lines)
+    return settings
 
 def main():
     L = []
@@ -47,14 +53,15 @@ def main():
     L.append("SmartGroupTreeVersion=2")
     L.append("Objects {")
 
+    T = chr(9)  # tab
+
     bcl = mkuuid("build_config_list")
     bcr = mkuuid("build_config_rel")
     bcd = mkuuid("build_config_dbg")
 
-    T = chr(9)
     L.append(T + bcl + " /* Build configuration list for PBXProject: Release */ = {isa = XCConfigurationList; buildConfigurations = (" + bcr + " /* Release */, " + bcd + " /* Debug */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };")
-    L.append(T + bcr + " /* Release */ = {isa = XCBuildConfiguration; buildSettings = {" + make_settings() + "}; name = Release; };")
-    L.append(T + bcd + " /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {" + make_settings(["        SWIFT_OPTIMIZATION_LEVEL = " + chr(34) + "-Onone" + chr(34) + ";"]) + "}; name = Debug; };")
+    L.append(T + bcr + " /* Release */ = {isa = XCBuildConfiguration; buildSettings = {" + make_settings_block() + "}; name = Release; };")
+    L.append(T + bcd + " /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {" + make_settings_block(["        SWIFT_OPTIMIZATION_LEVEL = " + chr(34) + "-Onone" + chr(34) + ";"]) + "}; name = Debug; };")
 
     mg = mkuuid("main_group")
     sg = mkuuid("sources_group")
@@ -96,7 +103,7 @@ def main():
     L.append(T + pr + " /* VlessBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VlessBox.app; sourceTree = BUILT_PRODUCTS_DIR; };")
 
     tgt = mkuuid("main_target")
-    L.append(T + tgt + " /* VlessBox */ = {isa = XCLegacyProjectTarget; buildConfigurationList = " + bcl + "; buildProductsLocation = " + chr(34) + chr(36) + "(BUILD_ROOT)/BuildProductsPath" + chr(34) + "; buildRules = (); buildSettings = {" + make_settings() + "}; productName = VlessBox; productReference = " + pr + "; productType = " + chr(34) + "com.apple.product-type.application" + chr(34) + "; };")
+    L.append(T + tgt + " /* VlessBox */ = {isa = XCLegacyProjectTarget; buildConfigurationList = " + bcl + "; buildProductsLocation = " + chr(34) + chr(36) + "(BUILD_ROOT)/BuildProductsPath" + chr(34) + "; buildRules = (); buildSettings = {" + make_settings_block() + "}; productName = VlessBox; productReference = " + pr + "; productType = " + chr(34) + "com.apple.product-type.application" + chr(34) + "; };")
 
     bps = mkuuid("sources_phase")
     bpr2 = mkuuid("resources_phase")
@@ -115,8 +122,8 @@ def main():
     L.append("EndObjects }")
 
     outpath = os.path.join(project_root, "VlessBox.xcodeproj", "project.pbxproj")
-    with open(outpath, "w", encoding="utf-8") as f:
-        f.write(chr(10).join(L))
+    with open(outpath, "w", encoding="utf-8", newline="\n") as f:
+        f.write(chr(10).join(L) + chr(10))
     print("Generated: " + outpath)
     print("File size: " + str(os.path.getsize(outpath)) + " bytes")
     with open(outpath, "r", encoding="utf-8") as f:
@@ -139,4 +146,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
