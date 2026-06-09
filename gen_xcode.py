@@ -118,7 +118,6 @@ def main():
     with open(outpath, "w", encoding="utf-8") as f:
         f.write(chr(10).join(L))
     print("Generated: " + outpath)
-    import os
     print("File size: " + str(os.path.getsize(outpath)) + " bytes")
     with open(outpath, "r", encoding="utf-8") as f:
         first_line = f.readline()
