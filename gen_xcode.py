@@ -1,6 +1,8 @@
-import hashlib, os, uuid, sys
+﻿# -*- coding: utf-8 -*-
+import hashlib, os, uuid, sys, pathlib
 
-project_root = r"E:/codex/VlessBox"
+# 自动从脚本所在目录推导项目根目录
+project_root = str(pathlib.Path(__file__).resolve().parent)
 swift_files = [
     "VlessBox/VlessBoxApp.swift",
     "VlessBox/Models/VmessConfig.swift",
@@ -41,7 +43,6 @@ def main():
     L = []
     L.append("<?xml version=" + chr(34) + "1.0" + chr(34) + " encoding=" + chr(34) + "UTF-8" + chr(34) + "?>")
     L.append("Version=19.2")
-    L.append("ClonePath=E:/codex/VlessBox")
     L.append("ObjectVersion=55")
     L.append("SmartGroupTreeVersion=2")
     L.append("Objects")
@@ -118,20 +119,19 @@ def main():
         f.write(chr(10).join(L))
     print("Generated: " + outpath)
 
-    # ===== ??????? =====
     with open(outpath, "r") as f:
         content = f.read()
     bad_markers = ["rel_settings", "dbg_settings", "tgt_settings"]
     found = [m for m in bad_markers if m in content]
     if found:
-        print("ERROR: ???????: " + ", ".join(found))
+        print("ERROR: 残留占位符: " + ", ".join(found))
         sys.exit(1)
     required_keys = ["CODE_SIGN_ENTITLEMENTS", "PRODUCT_BUNDLE_IDENTIFIER", "IPHONEOS_DEPLOYMENT_TARGET"]
     missing = [k for k in required_keys if k not in content]
     if missing:
-        print("ERROR: ??????: " + ", ".join(missing))
+        print("ERROR: 缺少必需配置: " + ", ".join(missing))
         sys.exit(1)
-    print("????: ??????????????")
+    print("校验通过: 无占位符，所有必需配置已写入")
 
 if __name__ == "__main__":
     main()

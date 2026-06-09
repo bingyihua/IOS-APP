@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 Version=19.2
-ClonePath=E:/codex/VlessBox
 ObjectVersion=55
 SmartGroupTreeVersion=2
 Objects
