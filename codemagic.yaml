@@ -13,7 +13,7 @@ environment:
   xcode: "15.4"
   vars:
     APP_NAME: "VlessBox"
-    XCODE_WORKSPACE: "VlessBox.xcodeproj"
+    XCODE_PROJECT_PATH: "VlessBox.xcodeproj"
     XCODE_SCHEME: "VlessBox"
 
 workflows:
@@ -26,20 +26,18 @@ workflows:
         script: |
           xcodebuild -version
           swift --version
-          ls /Applications | grep Xcode
 
       - name: Build IPA
         script: |
           cd VlessBox
           xcodebuild archive \
-            -scheme  \
-            -project  \
-            -configuration Release \
+            -scheme VlessBox \
+            -project VlessBox.xcodeproj \
             -xcconfig Release.xcconfig \
-            -archivePath "C:\Users\Administrator/BuildArtifacts/.xcarchive" \
+            -archivePath "C:\Users\Administrator/BuildArtifacts/VlessBox.xcarchive" \
             SKIP_INSTALL=NO \
             BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
     artifacts:
-      - BuildArtifacts/.xcarchive
+      - BuildArtifacts/VlessBox.xcarchive
       - C:\Users\Administrator/Library/Developer/Xcode/DerivedData/**/Logs/XcodeBuild.log
