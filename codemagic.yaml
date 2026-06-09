@@ -26,14 +26,16 @@ workflows:
         script: |
           xcodebuild -version
           swift --version
+          ls /Applications | grep Xcode
 
       - name: Build IPA
         script: |
           cd VlessBox
           xcodebuild archive \
             -scheme  \
-            -configuration Release \
             -project  \
+            -configuration Release \
+            -xcconfig Release.xcconfig \
             -archivePath "C:\Users\Administrator/BuildArtifacts/.xcarchive" \
             SKIP_INSTALL=NO \
             BUILD_LIBRARY_FOR_DISTRIBUTION=YES
