@@ -1,9 +1,7 @@
 ﻿# ============================================
 # VlessBox - Codemagic CI/CD Configuration
-# 使用方法: 登录 codemagic.io, 导入仓库, 配置签名, 触发构建
 # ============================================
 
-# 触发构建
 trigger:
   branches:
     only:
@@ -15,41 +13,29 @@ trigger:
     branches:
       - "**"
 
-# 缓存配置
 cache:
   cache_paths:
     - C:\Users\Administrator/Library/Caches/CocoaPods
 
-# 环境变量
 environment:
   xcode: "15.4"
-  cocoapods:
-    default_pod_version_and_target_resolution: true
   vars:
     APP_NAME: "VlessBox"
     BUNDLE_ID: "com.vlessbox.app"
-    XCODE_PROJECT_PATH: "VlessBox.xcodeproj"
+    XCODE_WORKSPACE: "VlessBox.xcodeproj"
     XCODE_SCHEME: "VlessBox"
 
-# 工作流
 workflows:
   ios-workflow:
     name: VlessBox iOS Build
     max_build_duration: 60
     instance_type: mac_mini
+
     triggering:
       events:
         - push
         - tag
         - pull_request
-      approve_if:
-        - force_build
-    environment:
-      xcode: "15.4"
-      vars:
-        XCODE_WORKSPACE: "VlessBox.xcodeproj"
-        XCODE_SCHEME: "VlessBox"
-        APP_NAME: "VlessBox"
 
     scripts:
       - name: Setup environment
@@ -74,7 +60,3 @@ workflows:
       - BuildArtifacts/.xcarchive
       - C:\Users\Administrator/Library/Developer/Xcode/DerivedData/**/Logs/XcodeBuild.log
       - /tmp/xcodebuild_logs/*.log
-
-    publishing:
-      emails:
-        - bingyihua@users.noreply.github.com
