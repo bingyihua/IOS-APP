@@ -1,11 +1,6 @@
-﻿# Xcode
+﻿# Xcode - 只排除用户数据，不排除项目文件
 build/
 DerivedData/
-*.xcworkspace/
-*.xcodeproj/
-*.pbxproj
-*.pbxproj.bak
-*.pbxproj.lock
 *.xcuserdata/
 project.xcworkspace/
 xcshareddata/

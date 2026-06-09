@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+Version=19.2
+ClonePath=E:/codex/VlessBox
+ObjectVersion=55
+SmartGroupTreeVersion=2
+Objects
+	56208123FD2446A5A8C50DF409183E28 /* Build configuration list for PBXProject: Release */ = {isa = XCConfigurationList; buildConfigurations = (ED0579211C7F41D9852A116B296C4B12 /* Release */, D84059EF8DFE4AA1B57D73A798E17548 /* Debug */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+	ED0579211C7F41D9852A116B296C4B12 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {rel_settings}; name = Release; };
+	D84059EF8DFE4AA1B57D73A798E17548 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {dbg_settings}; name = Debug; };
+	5928955287B8489E92177128BBC8A0E6 /* VlessBox */ = {isa = PBXGroup; children = (D685C104AFFB4F8387CB0FB6ED20E83F /* Sources */, 0ECEC165EE4D4B17BDC80E736E38A8E3 /* Resources */, 175C932161BE4F3B8BB1F58C4F9B035D /* Frameworks */, BF7A2D27A78D490B9EF15AF2D3513807 /* Products */); path = VlessBox; sourceTree = "<group>"; };
+	BF7A2D27A78D490B9EF15AF2D3513807 /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; };
+	175C932161BE4F3B8BB1F58C4F9B035D /* Frameworks */ = {isa = PBXGroup; name = Frameworks; sourceTree = "<group>"; };
+	BF81A25D27B848838A3AF1B0EFB8E2E1 /* VlessBoxApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VlessBoxApp.swift; sourceTree = "<group>"; };
+	D8792DB69E034F67860A767F3BEBD9DE /* VlessBoxApp.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = BF81A25D27B848838A3AF1B0EFB8E2E1; };
+	2C9BB71E655B4DC494079FBC0640E8EE /* VmessConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VmessConfig.swift; sourceTree = "<group>"; };
+	99AF88D9F9314437B394040A7D1E22D3 /* VmessConfig.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = 2C9BB71E655B4DC494079FBC0640E8EE; };
+	5F088EB8FEE4465193C3D06591A6BADB /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
+	1A121B9157EB49AB8B18389EB41B3C53 /* ProxyManager.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = 5F088EB8FEE4465193C3D06591A6BADB; };
+	DDF79E94AF2644E4A07C8A2AA91DBFE9 /* QRCodeParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeParser.swift; sourceTree = "<group>"; };
+	DEC81ADC252B44969011D2E53B3E991C /* QRCodeParser.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = DDF79E94AF2644E4A07C8A2AA91DBFE9; };
+	72CFC66F600144DEAA92B596AB9355A8 /* SystemChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemChecker.swift; sourceTree = "<group>"; };
+	EDA1F5018B4E4D30B6155DE51FB5A2C3 /* SystemChecker.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = 72CFC66F600144DEAA92B596AB9355A8; };
+	C4E37A9B6B284BE895BE4B2AD79E8025 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+	195466AEA3B1443E81DBC7E11024A973 /* ContentView.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = C4E37A9B6B284BE895BE4B2AD79E8025; };
+	6EDE4B7AA42542B1A912082D324C9022 /* ManualInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualInputView.swift; sourceTree = "<group>"; };
+	DF9F556203F14B8AA799BDA3D83E06D9 /* ManualInputView.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = 6EDE4B7AA42542B1A912082D324C9022; };
+	7999464F1D7C47F99270E11023B2F028 /* QRScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
+	2ACBE0DBB6644584AE309FFBA2D37A02 /* QRScannerView.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = 7999464F1D7C47F99270E11023B2F028; };
+	145E7A6383A04F5F8EE69FA61221BBB1 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+	09B81E76C63E40E3AAA0C3A4155F579C /* Assets.swift in VlessBox */ = {isa = PBXBuildFile; fileRef = 145E7A6383A04F5F8EE69FA61221BBB1; };
+	D685C104AFFB4F8387CB0FB6ED20E83F /* Sources */ = {isa = PBXGroup; children = (BF81A25D27B848838A3AF1B0EFB8E2E1, 2C9BB71E655B4DC494079FBC0640E8EE, 5F088EB8FEE4465193C3D06591A6BADB, DDF79E94AF2644E4A07C8A2AA91DBFE9, 72CFC66F600144DEAA92B596AB9355A8, C4E37A9B6B284BE895BE4B2AD79E8025, 6EDE4B7AA42542B1A912082D324C9022, 7999464F1D7C47F99270E11023B2F028, 145E7A6383A04F5F8EE69FA61221BBB1); name = Sources; sourceTree = "<group>"; };
+	E4A6BEF120F84DA197E0B08B13816FC1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+	3455DB9EC5ED4D5999EC992DC2557AC4 /* Info.plist in VlessBox */ = {isa = PBXBuildFile; fileRef = E4A6BEF120F84DA197E0B08B13816FC1; };
+	3A5F924D55694E9E82F7DF2B21108D47 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+	413E842BDF5147C5B6151353B9D1CF64 /* Entitlements.plist in VlessBox */ = {isa = PBXBuildFile; fileRef = 3A5F924D55694E9E82F7DF2B21108D47; };
+	0ECEC165EE4D4B17BDC80E736E38A8E3 /* Resources */ = {isa = PBXGroup; children = (E4A6BEF120F84DA197E0B08B13816FC1, 3A5F924D55694E9E82F7DF2B21108D47); name = Resources; sourceTree = "<group>"; };
+	A97C29AD63744CF4B8998CE6ADFA1380 /* VlessBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VlessBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+	131A2C91E218414BA00E74BB074F6979 /* VlessBox */ = {isa = XCLegacyProjectTarget; buildConfigurationList = 56208123FD2446A5A8C50DF409183E28; buildProductsLocation = "$(BUILD_ROOT)/BuildProductsPath"; buildRules = (); buildSettings = {tgt_settings}; productName = VlessBox; productReference = A97C29AD63744CF4B8998CE6ADFA1380; productType = "com.apple.product-type.application"; };
+	E7209FB051624757AF88D05EC3906E67 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (D8792DB69E034F67860A767F3BEBD9DE, 99AF88D9F9314437B394040A7D1E22D3, 1A121B9157EB49AB8B18389EB41B3C53, DEC81ADC252B44969011D2E53B3E991C, EDA1F5018B4E4D30B6155DE51FB5A2C3, 195466AEA3B1443E81DBC7E11024A973, DF9F556203F14B8AA799BDA3D83E06D9, 2ACBE0DBB6644584AE309FFBA2D37A02, 09B81E76C63E40E3AAA0C3A4155F579C); runOnlyForDeploymentPostprocessing = 0; };
+	66F8606E9F0A436EA228EBCB782B3F0D /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (3455DB9EC5ED4D5999EC992DC2557AC4, 413E842BDF5147C5B6151353B9D1CF64); runOnlyForDeploymentPostprocessing = 0; };
+	29B2D46AA747459884D46E1F8CC63A3D /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+	33EF45D2918B4C5BBEF21D7492064401 /* Project object */ = {isa = PBXProject; buildConfigurationList = 56208123FD2446A5A8C50DF409183E28; compatibilityVersion = "Xcode 14.0"; developmentRegion = zh-CN; hasScannedForEncodings = 0; knownRegions = (en, Base, zh-Hans); mainGroup = 5928955287B8489E92177128BBC8A0E6; productRefGroup = BF7A2D27A78D490B9EF15AF2D3513807; projectRoot = ""; targets = (131A2C91E218414BA00E74BB074F6979); };
+ProjectSection = {
+		33EF45D2918B4C5BBEF21D7492064401 = {ProjectRef = 33EF45D2918B4C5BBEF21D7492064401; };
+		131A2C91E218414BA00E74BB074F6979 = {TargetRef = 131A2C91E218414BA00E74BB074F6979; };
+};
+EndObjects
