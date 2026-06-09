@@ -1,8 +1,4 @@
-﻿# ============================================
-# VlessBox - Codemagic CI/CD Configuration
-# ============================================
-
-trigger:
+﻿trigger:
   branches:
     only:
       - main
@@ -21,7 +17,6 @@ environment:
   xcode: "15.4"
   vars:
     APP_NAME: "VlessBox"
-    BUNDLE_ID: "com.vlessbox.app"
     XCODE_WORKSPACE: "VlessBox.xcodeproj"
     XCODE_SCHEME: "VlessBox"
 
@@ -29,21 +24,13 @@ workflows:
   ios-workflow:
     name: VlessBox iOS Build
     max_build_duration: 60
-    instance_type: mac_mini
-
-    triggering:
-      events:
-        - push
-        - tag
-        - pull_request
+    instance_type: mac_intel
 
     scripts:
       - name: Setup environment
         script: |
           xcodebuild -version
-          xcode-select -p
           swift --version
-          ls /Applications | grep Xcode
 
       - name: Build IPA
         script: |
@@ -59,4 +46,3 @@ workflows:
     artifacts:
       - BuildArtifacts/.xcarchive
       - C:\Users\Administrator/Library/Developer/Xcode/DerivedData/**/Logs/XcodeBuild.log
-      - /tmp/xcodebuild_logs/*.log
