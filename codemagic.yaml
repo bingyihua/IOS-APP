@@ -29,14 +29,12 @@ workflows:
 
       - name: Refresh Xcode project
         script: |
-          echo "Regenerating project.pbxproj..."
-          cd VlessBox
+          echo "Regenerating project.pbxproj to fix template placeholders..."
           python gen_xcode.py
-          cd ..
 
       - name: Build IPA
         script: |
-          cd VlessBox
+          pwd
           ls -la
           xcodebuild archive \
             -scheme VlessBox \
