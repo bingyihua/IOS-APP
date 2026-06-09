@@ -1,4 +1,4 @@
-﻿// !$*UTF8*$!
+// !$*UTF8*$!
 Version=19.2
 ObjectVersion=55
 SmartGroupTreeVersion=2

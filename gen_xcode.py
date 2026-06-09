@@ -41,11 +41,11 @@ def make_settings(extras=None):
 
 def main():
     L = []
-    L.append("<?xml version=" + chr(34) + "1.0" + chr(34) + " encoding=" + chr(34) + "UTF-8" + chr(34) + "?>")
+    L.append("// !$*UTF8*$!")
     L.append("Version=19.2")
     L.append("ObjectVersion=55")
     L.append("SmartGroupTreeVersion=2")
-    L.append("Objects")
+    L.append("Objects {")
 
     bcl = mkuuid("build_config_list")
     bcr = mkuuid("build_config_rel")
@@ -112,7 +112,7 @@ def main():
     L.append(T + T + proj + " = {ProjectRef = " + proj + " };")
     L.append(T + T + tgt + " = {TargetRef = " + tgt + " };")
     L.append("};")
-    L.append("EndObjects")
+    L.append("EndObjects }")
 
     outpath = os.path.join(project_root, "VlessBox.xcodeproj", "project.pbxproj")
     with open(outpath, "w") as f:
@@ -135,3 +135,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
