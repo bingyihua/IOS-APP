@@ -14,10 +14,6 @@ jobs:
     name: iOS Build
     runs-on: macos-latest
 
-    defaults:
-      run:
-        working-directory: VlessBox
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -68,7 +64,7 @@ jobs:
             -scheme VlessBox \
             -configuration Release \
             -project VlessBox.xcodeproj \
-            -xcconfig Release.xcconfig \
+            -xcconfig VlessBox/Release.xcconfig \
             -archivePath build/VlessBox.xcarchive \
             SKIP_INSTALL=NO \
             BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
@@ -87,5 +83,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: VlessBox
-          path: VlessBox/build/VlessBox.ipa
+          path: build/VlessBox.ipa
           retention-days: 7
