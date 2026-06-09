@@ -115,11 +115,16 @@ def main():
     L.append("EndObjects }")
 
     outpath = os.path.join(project_root, "VlessBox.xcodeproj", "project.pbxproj")
-    with open(outpath, "w") as f:
+    with open(outpath, "w", encoding="utf-8") as f:
         f.write(chr(10).join(L))
     print("Generated: " + outpath)
+    import os
+    print("File size: " + str(os.path.getsize(outpath)) + " bytes")
+    with open(outpath, "r", encoding="utf-8") as f:
+        first_line = f.readline()
+    print("First line: " + repr(first_line))
 
-    with open(outpath, "r") as f:
+    with open(outpath, "r", encoding="utf-8") as f:
         content = f.read()
     bad_markers = ["rel_settings", "dbg_settings", "tgt_settings"]
     found = [m for m in bad_markers if m in content]

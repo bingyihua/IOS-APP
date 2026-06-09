@@ -36,6 +36,10 @@ workflows:
         script: |
           pwd
           ls -la
+          echo "=== Project file header (first 5 lines) ==="
+          head -5 VlessBox.xcodeproj/project.pbxproj
+          echo "=== Hex of first 20 bytes ==="
+          xxd VlessBox.xcodeproj/project.pbxproj | head -1
           xcodebuild archive \
             -scheme VlessBox \
             -project VlessBox.xcodeproj \
