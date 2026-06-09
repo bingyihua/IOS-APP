@@ -47,20 +47,13 @@ jobs:
           sudo xcode-select -s /Applications/Xcode_15.4.app
           xcodebuild -version
 
-      - name: Clean build
-        run: |
-          xcodebuild clean \
-            -scheme VlessBox \
-            -configuration Release \
-            -project VlessBox.xcodeproj
-
       - name: Build IPA
         run: |
           xcodebuild archive \
             -scheme VlessBox \
-            -configuration Release \
             -project VlessBox.xcodeproj \
             -xcconfig VlessBox/Release.xcconfig \
+            -derivedDataPath DerivedData \
             -archivePath build/VlessBox.xcarchive \
             SKIP_INSTALL=NO \
             BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
