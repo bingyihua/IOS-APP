@@ -29,13 +29,14 @@ workflows:
 
       - name: Refresh Xcode project
         script: |
-          echo "Regenerating project.pbxproj to ensure validity..."
+          echo "Regenerating project.pbxproj..."
+          cd VlessBox
           python gen_xcode.py
-          echo "Verification complete."
+          cd ..
 
       - name: Build IPA
         script: |
-          pwd
+          cd VlessBox
           ls -la
           xcodebuild archive \
             -scheme VlessBox \
