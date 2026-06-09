@@ -1,4 +1,4 @@
-ame: Build iOS IPA
+name: Build iOS IPA
 
 on:
   push:
@@ -13,31 +13,31 @@ jobs:
   build:
     name: iOS Build
     runs-on: macos-latest
-    
+
+    defaults:
+      run:
+        working-directory: VlessBox
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Verify project file
         run: |
-          cd VlessBox
           python gen_xcode.py
-      
+
       - name: Create workspace structure
         run: |
-          cd VlessBox
           mkdir -p VlessBox.xcworkspace/xcshareddata/xcworkspacedata/WorkspaceSettings/Settings.bundle
-          
-          # 创建 contents.xcworkspacedeclaration
-          cat > VlessBox.xcworkspace/xcshareddata/xcworkspacedata/contents.xcworkspacedeclaration << 'ENDOFFILE'
+
+          cat > VlessBox.xcworkspace/xcshareddata/xcworkspacedata/contents.xcworkspacedeclaration << 'EOF'
           <?xml version="1.0" encoding="UTF-8"?>
           <Workspace version="1.0">
              <FileRef location="group:VlessBox.xcodeproj"/>
           </Workspace>
-          ENDOFFILE
-          
-          # 创建 Settings.bundle/Root.plist（空配置）
-          cat > VlessBox.xcworkspace/xcshareddata/xcworkspacedata/WorkspaceSettings/Settings.bundle/Root.plist << 'ENDOFFILE'
+          EOF
+
+          cat > VlessBox.xcworkspace/xcshareddata/xcworkspacedata/WorkspaceSettings/Settings.bundle/Root.plist << 'EOF'
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
@@ -48,24 +48,22 @@ jobs:
               <array/>
           </dict>
           </plist>
-          ENDOFFILE
-      
+          EOF
+
       - name: Select Xcode version
         run: |
           sudo xcode-select -s /Applications/Xcode_15.4.app
           xcodebuild -version
-      
+
       - name: Clean build
         run: |
-          cd VlessBox
           xcodebuild clean \
             -scheme VlessBox \
             -configuration Release \
             -project VlessBox.xcodeproj
-      
+
       - name: Build IPA
         run: |
-          cd VlessBox
           xcodebuild archive \
             -scheme VlessBox \
             -configuration Release \
@@ -77,14 +75,14 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
-      
+
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
             -archivePath build/VlessBox.xcarchive \
             -exportPath build/ \
             -exportOptionsPlist exportOptions.plist
-      
+
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
