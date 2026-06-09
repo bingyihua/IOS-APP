@@ -27,6 +27,12 @@ workflows:
           pwd
           ls -la
 
+      - name: Refresh Xcode project
+        script: |
+          echo "Regenerating project.pbxproj to ensure validity..."
+          python gen_xcode.py
+          echo "Verification complete."
+
       - name: Build IPA
         script: |
           pwd
