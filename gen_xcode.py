@@ -1,4 +1,4 @@
-import hashlib, os, uuid
+import hashlib, os, uuid, sys
 
 project_root = r"E:/codex/VlessBox"
 swift_files = [
@@ -117,6 +117,21 @@ def main():
     with open(outpath, "w") as f:
         f.write(chr(10).join(L))
     print("Generated: " + outpath)
+
+    # ===== ??????? =====
+    with open(outpath, "r") as f:
+        content = f.read()
+    bad_markers = ["rel_settings", "dbg_settings", "tgt_settings"]
+    found = [m for m in bad_markers if m in content]
+    if found:
+        print("ERROR: ???????: " + ", ".join(found))
+        sys.exit(1)
+    required_keys = ["CODE_SIGN_ENTITLEMENTS", "PRODUCT_BUNDLE_IDENTIFIER", "IPHONEOS_DEPLOYMENT_TARGET"]
+    missing = [k for k in required_keys if k not in content]
+    if missing:
+        print("ERROR: ??????: " + ", ".join(missing))
+        sys.exit(1)
+    print("????: ??????????????")
 
 if __name__ == "__main__":
     main()
